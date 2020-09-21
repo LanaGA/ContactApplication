@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Contact</string>
+    <string name="create_contact_toolbar_title">Create Contact</string>
+    <string name="contact_menu_item_save">Save Contact</string>
+    <string name="edit_contact_toolbar_title">Edit Contact</string>
+    <string name="surname">Surname</string>
+    <string name="name">Name</string>
+    <string name="nameSample">Ivan Ivanov</string>
+    <string name="numberSample">555-55-55</string>
+</resources>
