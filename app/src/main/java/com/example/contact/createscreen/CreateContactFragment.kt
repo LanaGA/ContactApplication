@@ -20,9 +20,8 @@ import com.example.contact.editcontactscreen.ui.UiEvent
 import com.example.contact.editcontactscreen.ui.ViewState
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.maincontactscreen.ui.ContactScreen
-import com.example.contact.maincontactscreen.ui.contactAdapterDelegate
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_create_contact.*
+import kotlinx.android.synthetic.main.fragment_edit_contact.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
@@ -32,13 +31,6 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
 
     private var currentImagePath = ""
     private val viewModel: CreateContactViewModel by viewModel()
-    private val adapter = ListDelegationAdapter(
-        contactAdapterDelegate {
-            viewModel.processUiEvent(
-                UiEvent.CreateContact(it)
-            )
-        }
-    )
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -116,7 +108,13 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
             STATUS.LOAD -> {
             }
             STATUS.CONTENT -> {
-
+                val model = viewState.contactModel
+                currentImagePath = model?.pathToImage ?: ""
+                Glide.with(this)
+                    .load(currentImagePath)
+                    .into(editImageView)
+                nameEditText.setText((model?.name + " " + model?.surname))
+                numberEditText.setText(model?.number)
             }
             STATUS.ERROR -> {
             }

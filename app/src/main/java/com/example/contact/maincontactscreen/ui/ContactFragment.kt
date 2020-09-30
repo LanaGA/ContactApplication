@@ -24,7 +24,7 @@ import ru.terrakok.cicerone.Router
 class ContactFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: ContactViewModel by viewModel()
-    private val adapter = ListDelegationAdapter(contactAdapterDelegate {
+    private val adapter = ListDelegationAdapter(listContactsAdapterDelegate {
         viewModel.processUiEvent(UiEvent.RequestAllContacts)
     })
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
