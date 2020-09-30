@@ -9,13 +9,13 @@ import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.contact_view_item.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
-fun contactAdapterDelegate(): AdapterDelegate<List<Item>> =
+fun contactAdapterDelegate(onClick: (ContactModel) -> Unit): AdapterDelegate<List<Item>> =
     adapterDelegateLayoutContainer<ContactModel, Item>(
         R.layout.contact_view_item
     ) {
         bind {
             rvContact.setOnClickListener {
-                //onClick(adapterPosition)
+                onClick(item)
             }
             textName.text = (item.name + " " + item.surname)
             textNumber.text = item.number

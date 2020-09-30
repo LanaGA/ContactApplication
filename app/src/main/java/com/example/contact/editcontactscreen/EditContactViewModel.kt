@@ -11,11 +11,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class EditContactViewModel(private val interactor: ContactInteractor) : BaseViewModel<ViewState>() {
-    override fun initialViewState(): ViewState = ViewState(STATUS.LOAD, null)
+    override fun initialViewState(): ViewState = ViewState(STATUS.LOAD, null, null)
 
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
-            is UiEvent.OnRequestContact -> {
+            is UiEvent.RequestContact -> {
                 interactor
                     .getContact(event.number)
                     .subscribeOn(Schedulers.io())
@@ -23,6 +23,20 @@ class EditContactViewModel(private val interactor: ContactInteractor) : BaseView
                     .subscribe(
                         {
                             processDataEvent(DataEvent.OnSuccessContactsRequest(it))
+                        },
+                        {
+                            it
+                        }
+                    )
+            }
+            is UiEvent.UpdateContact -> {
+                interactor
+                    .updateContact(event.ContactsModel)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            processDataEvent(DataEvent.OnContactSaved)
                         },
                         {
                             it

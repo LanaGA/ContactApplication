@@ -8,8 +8,8 @@ class ContactRepositoryImpl(private val contactDao: ContactDao) : ContactReposit
     override fun createContact(entity: ContactModel): Single<Unit> =
         contactDao.create(entity.mapToEntityModel())
 
-    override fun updateContact(oldEntity: ContactModel, newEntity: ContactModel): Single<Unit> =
-        contactDao.update(oldEntity.mapToEntityModel(), newEntity.mapToEntityModel())
+    override fun updateContact(entity: ContactModel): Single<Unit> =
+        contactDao.update(entity.mapToEntityModel())
 
     override fun deleteContact(entity: ContactModel): Single<Unit> =
         contactDao.delete(entity.mapToEntityModel())

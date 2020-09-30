@@ -8,6 +8,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contact.R
 import com.example.contact.createscreen.CreateContactScreen
+import com.example.contact.editcontactscreen.ui.STATUS
+import com.example.contact.editcontactscreen.ui.UiEvent
+import com.example.contact.editcontactscreen.ui.ViewState
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.setAdapterAndCleanupOnDetachFromWindow
 import com.example.contact.setData
@@ -21,13 +24,16 @@ import ru.terrakok.cicerone.Router
 class ContactFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: ContactViewModel by viewModel()
-    private val adapter = ListDelegationAdapter(contactAdapterDelegate())
+    private val adapter = ListDelegationAdapter(contactAdapterDelegate {
+        viewModel.processUiEvent(UiEvent.RequestAllContacts)
+    })
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.viewState.observe(viewLifecycleOwner, Observer(::render))

@@ -5,31 +5,29 @@ import com.example.contact.contact.ui.model.ContactModel
 
 data class ViewState(
     val status: STATUS,
-    val contactModel: ContactModel?
+    val contactModel: ContactModel?,
+    val contactList: List<ContactModel>?
 )
 
 sealed class UiEvent : Event {
-    data class OnCreateContact(
-        val image: String,
-        val name: String,
-        val surname: String,
+    data class CreateContact(
+        val ContactsModel: ContactModel
+    ) : UiEvent()
+
+    data class UpdateContact(
+        val ContactsModel: ContactModel
+    ) : UiEvent()
+
+    data class RequestContact(
         val number: String
     ) : UiEvent()
 
-    data class OnUpdateContact(
-        val image: String,
-        val name: String,
-        val surname: String,
-        val number: String
-    ) : UiEvent()
-
-    data class OnRequestContact(
-        val number: String
-    ) : UiEvent()
+    object RequestAllContacts : UiEvent()
 }
 
 sealed class DataEvent : Event {
-    data class OnSuccessContactsRequest(val ContactsModel: ContactModel) : DataEvent()
+    data class OnSuccessContactsRequest(val contactsModel: ContactModel) : DataEvent()
+    data class OnSuccessAllContactsRequest(val listContactsModel: List<ContactModel>) : DataEvent()
     object OnContactSaved : DataEvent()
 }
 

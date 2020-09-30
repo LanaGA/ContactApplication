@@ -17,7 +17,7 @@ interface ContactDao {
     fun readByNumber(number: String): Single<ContactEntity>
 
     @Update
-    fun update(oldEntity: ContactEntity, newEntity: ContactEntity): Single<Unit>
+    fun update(entity: ContactEntity): Single<Unit>
 
     @Delete
     fun delete(entity: ContactEntity): Single<Unit>

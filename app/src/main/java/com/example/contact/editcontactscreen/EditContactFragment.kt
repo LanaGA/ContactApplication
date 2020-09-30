@@ -13,6 +13,7 @@ import com.example.contact.base.IMAGE_TYPE
 import com.example.contact.base.REQUEST_CODE
 import com.example.contact.base.checkPermissionForReadFromStorage
 import com.example.contact.base.requestPermissionForReadFromStorage
+import com.example.contact.contact.ui.model.ContactModel
 import com.example.contact.editcontactscreen.ui.STATUS
 import com.example.contact.editcontactscreen.ui.UiEvent
 import com.example.contact.editcontactscreen.ui.ViewState
@@ -46,7 +47,6 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.edit_contact_toolbar_title)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer(::render))
         val selectedNumber = arguments?.getString(NUMBER)
-        viewModel.processUiEvent(UiEvent.OnRequestContact(selectedNumber!!))
+        viewModel.processUiEvent(UiEvent.RequestContact(selectedNumber!!))
 
         editImageView.setOnClickListener {
             if (checkPermissionForReadFromStorage()) {
@@ -66,11 +66,13 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
 
         editContactButton.setOnClickListener {
             viewModel.processUiEvent(
-                UiEvent.OnUpdateContact(
-                    currentImagePath,
-                    nameEditText.text.toString(),
-                    surnameEditText.text.toString(),
-                    numberEditText.text.toString()
+                UiEvent.UpdateContact(
+                    ContactModel(
+                        currentImagePath,
+                        nameEditText.text.toString(),
+                        surnameEditText.text.toString(),
+                        numberEditText.text.toString()
+                    )
                 )
             )
             router.backTo(ContactScreen())
@@ -86,18 +88,14 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
         )
     }
 
-    private fun render(viewState: ViewState){
-        when(viewState.status){
+    private fun render(viewState: ViewState) {
+        when (viewState.status) {
             STATUS.LOAD -> {
             }
             STATUS.CONTENT -> {
                 val model = viewState.contactModel
                 currentImagePath = model?.pathToImage ?: ""
-                if(currentImagePath == "")
-                {
-                    createImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_account_circle_24))
-                }
-                else Glide.with(this)
+               Glide.with(this)
                     .load(currentImagePath)
                     .into(editImageView)
                 nameEditText.setText((model?.name + " " + model?.surname))
@@ -109,9 +107,9 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            data?.data?.let {
-                    uri -> currentImagePath = uri.toString()
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                currentImagePath = uri.toString()
                 Glide.with(this)
                     .load(currentImagePath)
                     .into(createImageView)
