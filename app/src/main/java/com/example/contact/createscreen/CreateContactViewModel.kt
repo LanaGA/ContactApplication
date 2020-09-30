@@ -5,6 +5,7 @@ import com.example.contact.base.BaseViewModel
 import com.example.contact.base.Event
 import com.example.contact.contact.data.ContactInteractor
 import com.example.contact.contact.ui.model.ContactModel
+import com.example.contact.editcontactscreen.ui.DataEvent
 import com.example.contact.editcontactscreen.ui.STATUS
 import com.example.contact.editcontactscreen.ui.UiEvent
 import com.example.contact.editcontactscreen.ui.ViewState
@@ -27,7 +28,7 @@ class CreateContactViewModel(private val interactor: ContactInteractor) : BaseVi
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         {
-                            Log.d("DEBUG", "Success UiEvent.OnContactCreate")
+                            processDataEvent(DataEvent.OnContactSaved)
                         },
                         {
                             Log.d("DEBUG", "Fail UiEvent.OnContactCreate")

@@ -30,6 +30,7 @@ sealed class UiEvent : Event {
 
 sealed class DataEvent : Event {
     data class OnSuccessContactsRequest(val ContactsModel: ContactModel) : DataEvent()
+    object OnContactSaved : DataEvent()
 }
 
 enum class STATUS {

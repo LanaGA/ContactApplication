@@ -7,4 +7,5 @@
     <string name="name">Name</string>
     <string name="nameSample">Ivan Ivanov</string>
     <string name="numberSample">555-55-55</string>
+    <string name="number">Number</string>
 </resources>

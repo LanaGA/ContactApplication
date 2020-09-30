@@ -12,7 +12,7 @@ import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 
-class HolderFragment : Fragment(R.layout.fragment_main) {
+class HolderFragment : Fragment(R.layout.main_layout) {
 
     private val navigator: Navigator by lazy { createNavigator() }
     private val router: Router by inject(named(CONTACTS_QUALIFIER))

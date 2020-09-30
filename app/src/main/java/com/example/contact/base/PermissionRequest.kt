@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 
 const val IMAGE_TYPE = "image/*"
 const val READ_EXTERNAL_STORAGE = "READ_EXTERNAL_STORAGE"
-const val RESULT_AMOUNT = 1
+const val REQUEST_CODE = 1
 const val REQUEST_PERMISSION = 2
 fun Fragment.requestPermissionForReadFromStorage() {
     requestPermissions(
