@@ -17,12 +17,12 @@ class EditContactViewModel(private val interactor: ContactInteractor) : BaseView
         when (event) {
             is UiEvent.RequestContact -> {
                 interactor
-                    .getContact(event.number)
+                    .getContact(previousState.contactList?.get(event.index)!!.number)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         {
-                            processDataEvent(DataEvent.OnSuccessContactsRequest(it))
+                            processDataEvent(DataEvent.SuccessContactsRequest(it))
                         },
                         {
                             it
@@ -43,6 +43,19 @@ class EditContactViewModel(private val interactor: ContactInteractor) : BaseView
                         }
                     )
             }
+            is DataEvent.SuccessContactsRequest -> {
+                return previousState.copy(
+                    status = STATUS.CONTENT,
+                    contactModel = event.contactsModel
+                )
+            }
+            is DataEvent.OnContactSaved -> {
+                return previousState.copy(
+                    status = STATUS.CONTENT,
+                    contactModel = previousState.contactModel
+                )
+            }
+
         }
         return null
     }

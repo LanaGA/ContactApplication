@@ -19,15 +19,15 @@ sealed class UiEvent : Event {
     ) : UiEvent()
 
     data class RequestContact(
-        val number: String
+        val index: Int
     ) : UiEvent()
 
     object RequestAllContacts : UiEvent()
 }
 
 sealed class DataEvent : Event {
-    data class OnSuccessContactsRequest(val contactsModel: ContactModel) : DataEvent()
-    data class OnSuccessAllContactsRequest(val listContactsModel: List<ContactModel>) : DataEvent()
+    data class SuccessContactsRequest(val contactsModel: ContactModel) : DataEvent()
+    data class SuccessAllContactsRequest(val listContactsModel: List<ContactModel>) : DataEvent()
     object OnContactSaved : DataEvent()
 }
 

@@ -21,7 +21,6 @@ import com.example.contact.editcontactscreen.ui.ViewState
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.maincontactscreen.ui.ContactScreen
 import kotlinx.android.synthetic.main.fragment_create_contact.*
-import kotlinx.android.synthetic.main.fragment_edit_contact.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
@@ -92,6 +91,16 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
         )
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (checkPermissionForReadFromStorage()) {
+            getImage()
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
@@ -108,13 +117,6 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
             STATUS.LOAD -> {
             }
             STATUS.CONTENT -> {
-                val model = viewState.contactModel
-                currentImagePath = model?.pathToImage ?: ""
-                Glide.with(this)
-                    .load(currentImagePath)
-                    .into(editImageView)
-                nameEditText.setText((model?.name + " " + model?.surname))
-                numberEditText.setText(model?.number)
             }
             STATUS.ERROR -> {
             }

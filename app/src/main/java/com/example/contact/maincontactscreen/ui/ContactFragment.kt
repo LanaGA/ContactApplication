@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contact.R
 import com.example.contact.createscreen.CreateContactScreen
+import com.example.contact.editcontactscreen.EditContactScreen
 import com.example.contact.editcontactscreen.ui.STATUS
 import com.example.contact.editcontactscreen.ui.UiEvent
 import com.example.contact.editcontactscreen.ui.ViewState
@@ -25,7 +26,7 @@ class ContactFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: ContactViewModel by viewModel()
     private val adapter = ListDelegationAdapter(listContactsAdapterDelegate {
-        viewModel.processUiEvent(UiEvent.RequestAllContacts)
+        router.navigateTo(EditContactScreen())
     })
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
 
@@ -42,6 +43,7 @@ class ContactFragment : Fragment(R.layout.fragment_main) {
         goToCreateContactButton.setOnClickListener {
             router.navigateTo(CreateContactScreen())
         }
+        viewModel.processUiEvent(UiEvent.RequestAllContacts)
     }
 
     private fun render(viewState: ViewState) {

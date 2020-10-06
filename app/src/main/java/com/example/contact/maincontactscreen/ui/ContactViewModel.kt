@@ -22,14 +22,14 @@ class ContactViewModel(private val interactor: ContactInteractor) : BaseViewMode
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         {
-                            processDataEvent(DataEvent.OnSuccessAllContactsRequest(it))
+                            processDataEvent(DataEvent.SuccessAllContactsRequest(it))
                         },
                         {
                             it
                         }
                     )
             }
-            is DataEvent.OnSuccessAllContactsRequest -> {
+            is DataEvent.SuccessAllContactsRequest -> {
                 return previousState.copy(
                     status = STATUS.CONTENT,
                     contactModel = null,

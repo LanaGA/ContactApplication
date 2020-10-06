@@ -19,6 +19,8 @@ import com.example.contact.editcontactscreen.ui.UiEvent
 import com.example.contact.editcontactscreen.ui.ViewState
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.maincontactscreen.ui.ContactScreen
+import com.example.contact.maincontactscreen.ui.listContactsAdapterDelegate
+import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_create_contact.*
 import kotlinx.android.synthetic.main.fragment_edit_contact.*
 import org.koin.android.ext.android.inject
@@ -29,20 +31,14 @@ import ru.terrakok.cicerone.Router
 
 class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
 
-    companion object {
-        private const val NUMBER = "NUMBER"
-        fun newInstance(id: String): EditContactFragment {
-            val bundle = Bundle()
-            val fragment = EditContactFragment()
-            bundle.putString(NUMBER, id)
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
-
     private var currentImagePath = ""
     private val viewModel: EditContactViewModel by viewModel()
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
+    private val adapter = ListDelegationAdapter(
+        listContactsAdapterDelegate {
+            viewModel.processUiEvent(UiEvent.RequestContact(it))
+        }
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +47,7 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.viewState.observe(viewLifecycleOwner, Observer(::render))
-        val selectedNumber = arguments?.getString(NUMBER)
-        viewModel.processUiEvent(UiEvent.RequestContact(selectedNumber!!))
 
         editImageView.setOnClickListener {
             if (checkPermissionForReadFromStorage()) {
@@ -91,11 +84,13 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     private fun render(viewState: ViewState) {
         when (viewState.status) {
             STATUS.LOAD -> {
+                editImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_account_circle_24))
+
             }
             STATUS.CONTENT -> {
                 val model = viewState.contactModel
                 currentImagePath = model?.pathToImage ?: ""
-               Glide.with(this)
+                Glide.with(this)
                     .load(currentImagePath)
                     .into(editImageView)
                 nameEditText.setText((model?.name + " " + model?.surname))
