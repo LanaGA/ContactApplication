@@ -13,10 +13,10 @@ import com.example.contact.base.IMAGE_TYPE
 import com.example.contact.base.REQUEST_CODE
 import com.example.contact.base.checkPermissionForReadFromStorage
 import com.example.contact.base.requestPermissionForReadFromStorage
+import com.example.contact.contact.ui.STATUS
+import com.example.contact.contact.ui.UiEvent
+import com.example.contact.contact.ui.ViewState
 import com.example.contact.contact.ui.model.ContactModel
-import com.example.contact.editcontactscreen.ui.STATUS
-import com.example.contact.editcontactscreen.ui.UiEvent
-import com.example.contact.editcontactscreen.ui.ViewState
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.maincontactscreen.ui.ContactScreen
 import kotlinx.android.synthetic.main.fragment_create_contact.*

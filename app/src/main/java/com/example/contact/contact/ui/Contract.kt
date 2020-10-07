@@ -1,4 +1,4 @@
-package com.example.contact.editcontactscreen.ui
+package com.example.contact.contact.ui
 
 import com.example.contact.base.Event
 import com.example.contact.contact.ui.model.ContactModel
@@ -19,9 +19,12 @@ sealed class UiEvent : Event {
     ) : UiEvent()
 
     data class RequestContact(
-        val index: Int
+        val number: String
     ) : UiEvent()
 
+    data class OpenEditContact(
+        val index: Int
+    ): UiEvent()
     object RequestAllContacts : UiEvent()
 }
 

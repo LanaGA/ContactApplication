@@ -4,10 +4,10 @@ import android.util.Log
 import com.example.contact.base.BaseViewModel
 import com.example.contact.base.Event
 import com.example.contact.contact.data.ContactInteractor
-import com.example.contact.editcontactscreen.ui.DataEvent
-import com.example.contact.editcontactscreen.ui.STATUS
-import com.example.contact.editcontactscreen.ui.UiEvent
-import com.example.contact.editcontactscreen.ui.ViewState
+import com.example.contact.contact.ui.DataEvent
+import com.example.contact.contact.ui.STATUS
+import com.example.contact.contact.ui.UiEvent
+import com.example.contact.contact.ui.ViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

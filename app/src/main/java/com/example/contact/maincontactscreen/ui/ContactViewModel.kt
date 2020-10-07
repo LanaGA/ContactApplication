@@ -3,16 +3,22 @@ package com.example.contact.maincontactscreen.ui
 import com.example.contact.base.BaseViewModel
 import com.example.contact.base.Event
 import com.example.contact.contact.data.ContactInteractor
-import com.example.contact.editcontactscreen.ui.DataEvent
-import com.example.contact.editcontactscreen.ui.STATUS
-import com.example.contact.editcontactscreen.ui.UiEvent
-import com.example.contact.editcontactscreen.ui.ViewState
+import com.example.contact.contact.ui.DataEvent
+import com.example.contact.contact.ui.STATUS
+import com.example.contact.contact.ui.UiEvent
+import com.example.contact.contact.ui.ViewState
+import com.example.contact.editcontactscreen.EditContactScreen
+import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import ru.terrakok.cicerone.Router
+import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 
 class ContactViewModel(private val interactor: ContactInteractor) : BaseViewModel<ViewState>() {
 
     override fun initialViewState(): ViewState = ViewState(STATUS.LOAD, null, null)
+    private val router: Router by inject(named(CONTACTS_QUALIFIER))
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
             is UiEvent.RequestAllContacts -> {
@@ -28,6 +34,9 @@ class ContactViewModel(private val interactor: ContactInteractor) : BaseViewMode
                             it
                         }
                     )
+            }
+            is UiEvent.OpenEditContact -> {
+                router.navigateTo(EditContactScreen(previousState.contactList?.get(event.index)!!.number))
             }
             is DataEvent.SuccessAllContactsRequest -> {
                 return previousState.copy(

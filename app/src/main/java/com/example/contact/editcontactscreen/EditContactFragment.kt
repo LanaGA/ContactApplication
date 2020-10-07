@@ -12,12 +12,13 @@ import com.example.contact.base.IMAGE_TYPE
 import com.example.contact.base.REQUEST_CODE
 import com.example.contact.base.checkPermissionForReadFromStorage
 import com.example.contact.base.requestPermissionForReadFromStorage
+import com.example.contact.contact.ui.STATUS
+import com.example.contact.contact.ui.UiEvent
+import com.example.contact.contact.ui.ViewState
 import com.example.contact.contact.ui.model.ContactModel
-import com.example.contact.editcontactscreen.ui.STATUS
-import com.example.contact.editcontactscreen.ui.UiEvent
-import com.example.contact.editcontactscreen.ui.ViewState
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.maincontactscreen.ui.ContactScreen
+import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_create_contact.*
 import kotlinx.android.synthetic.main.fragment_edit_contact.*
 import org.koin.android.ext.android.inject
@@ -26,11 +27,16 @@ import org.koin.core.qualifier.named
 import ru.terrakok.cicerone.Router
 
 
-class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
+class EditContactFragment(private val number: String) : Fragment(R.layout.fragment_edit_contact) {
 
     private var currentImagePath = ""
     private val viewModel: EditContactViewModel by viewModel()
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
+    private val adapter = ListDelegationAdapter(
+        editContactsAdapterDelegate {
+            viewModel.processUiEvent(UiEvent.RequestContact(number))
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
