@@ -28,7 +28,7 @@ class HolderFragment : Fragment(R.layout.main_layout) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        router.navigateTo(ContactScreen())
+        router.newRootScreen(ContactScreen())
     }
 
     override fun onResume() {

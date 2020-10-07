@@ -51,9 +51,7 @@ class EditContactViewModel(private val interactor: ContactInteractor) : BaseView
             }
             is DataEvent.OnContactSaved -> {
                 return previousState.copy(
-                    status = STATUS.CONTENT,
-                    contactModel = previousState.contactModel
-                )
+                    status = STATUS.CONTENT)
             }
 
         }

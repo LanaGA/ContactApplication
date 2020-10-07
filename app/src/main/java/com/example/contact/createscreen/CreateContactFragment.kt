@@ -3,7 +3,6 @@ package com.example.contact.createscreen
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -32,23 +31,6 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
     private val viewModel: CreateContactViewModel by viewModel()
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.home -> {
-                (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(
-                    false
-                )
-                router.backTo(ContactScreen())
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.viewState.observe(viewLifecycleOwner, Observer(::render))
@@ -76,7 +58,7 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
             (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(
                 false
             )
-            router.backTo(ContactScreen())
+            router.navigateTo(ContactScreen())
         }
 
     }

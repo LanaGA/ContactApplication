@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -19,8 +18,6 @@ import com.example.contact.editcontactscreen.ui.UiEvent
 import com.example.contact.editcontactscreen.ui.ViewState
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.maincontactscreen.ui.ContactScreen
-import com.example.contact.maincontactscreen.ui.listContactsAdapterDelegate
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_create_contact.*
 import kotlinx.android.synthetic.main.fragment_edit_contact.*
 import org.koin.android.ext.android.inject
@@ -34,16 +31,6 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
     private var currentImagePath = ""
     private val viewModel: EditContactViewModel by viewModel()
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
-    private val adapter = ListDelegationAdapter(
-        listContactsAdapterDelegate {
-            viewModel.processUiEvent(UiEvent.RequestContact(it))
-        }
-    )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,7 +55,7 @@ class EditContactFragment : Fragment(R.layout.fragment_edit_contact) {
                     )
                 )
             )
-            router.backTo(ContactScreen())
+            router.navigateTo(ContactScreen())
         }
     }
 
