@@ -32,16 +32,11 @@ class EditContactFragment(private val number: String) : Fragment(R.layout.fragme
     private var currentImagePath = ""
     private val viewModel: EditContactViewModel by viewModel()
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
-    private val adapter = ListDelegationAdapter(
-        editContactsAdapterDelegate {
-            viewModel.processUiEvent(UiEvent.RequestContact(number))
-        }
-    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.viewState.observe(viewLifecycleOwner, Observer(::render))
-
+        viewModel.processUiEvent(UiEvent.RequestContact(number))
         editImageView.setOnClickListener {
             if (checkPermissionForReadFromStorage()) {
                 getImage()
@@ -78,11 +73,11 @@ class EditContactFragment(private val number: String) : Fragment(R.layout.fragme
         when (viewState.status) {
             STATUS.LOAD -> {
                 editImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_account_circle_24))
-
             }
             STATUS.CONTENT -> {
                 val model = viewState.contactModel
                 currentImagePath = model?.pathToImage ?: ""
+                if(currentImagePath != "")
                 Glide.with(this)
                     .load(currentImagePath)
                     .into(editImageView)

@@ -15,10 +15,9 @@ import ru.terrakok.cicerone.Router
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
-class ContactViewModel(private val interactor: ContactInteractor) : BaseViewModel<ViewState>() {
+class ContactViewModel(private val interactor: ContactInteractor,  private val router: Router) : BaseViewModel<ViewState>() {
 
     override fun initialViewState(): ViewState = ViewState(STATUS.LOAD, null, null)
-    private val router: Router by inject(named(CONTACTS_QUALIFIER))
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
             is UiEvent.RequestAllContacts -> {
@@ -36,7 +35,7 @@ class ContactViewModel(private val interactor: ContactInteractor) : BaseViewMode
                     )
             }
             is UiEvent.OpenEditContact -> {
-                router.navigateTo(EditContactScreen(previousState.contactList?.get(event.index)!!.number))
+                router.navigateTo(EditContactScreen(event.number))
             }
             is DataEvent.SuccessAllContactsRequest -> {
                 return previousState.copy(

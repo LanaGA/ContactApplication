@@ -8,13 +8,14 @@ import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.contact_view_item.*
 
-fun listContactsAdapterDelegate(onClick: (Int) -> Unit): AdapterDelegate<List<Item>> =
+fun listContactsAdapterDelegate(onClick: (ContactModel) -> Unit): AdapterDelegate<List<Item>> =
     adapterDelegateLayoutContainer<ContactModel, Item>(
         R.layout.contact_view_item
     ) {
 
         containerView.setOnClickListener {
-            onClick(adapterPosition)
+            
+            onClick(item)
         }
 
         bind {

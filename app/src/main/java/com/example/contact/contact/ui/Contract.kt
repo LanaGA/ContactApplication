@@ -23,7 +23,7 @@ sealed class UiEvent : Event {
     ) : UiEvent()
 
     data class OpenEditContact(
-        val index: Int
+        val number: String
     ): UiEvent()
     object RequestAllContacts : UiEvent()
 }

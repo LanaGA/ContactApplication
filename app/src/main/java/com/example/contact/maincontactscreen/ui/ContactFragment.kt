@@ -26,7 +26,7 @@ class ContactFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: ContactViewModel by viewModel()
     private val adapter = ListDelegationAdapter(listContactsAdapterDelegate {
-        viewModel.processUiEvent(UiEvent.OpenEditContact(it))
+        viewModel.processUiEvent(UiEvent.OpenEditContact(it.number))
     })
     private val router: Router by inject(named(CONTACTS_QUALIFIER))
 

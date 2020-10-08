@@ -58,7 +58,7 @@ val navModule = module {
 
 val viewModelModule = module {
     viewModel {
-        ContactViewModel(get())
+        ContactViewModel(get(), get(named(CONTACTS_QUALIFIER)))
     }
     viewModel {
         CreateContactViewModel(get())
