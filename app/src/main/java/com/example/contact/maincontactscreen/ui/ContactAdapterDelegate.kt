@@ -14,7 +14,6 @@ fun listContactsAdapterDelegate(onClick: (ContactModel) -> Unit): AdapterDelegat
     ) {
 
         containerView.setOnClickListener {
-            
             onClick(item)
         }
 

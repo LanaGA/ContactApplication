@@ -95,7 +95,7 @@ class EditContactFragment(private val number: String) : Fragment(R.layout.fragme
                 currentImagePath = uri.toString()
                 Glide.with(this)
                     .load(currentImagePath)
-                    .into(createImageView)
+                    .into(editImageView)
             }
         }
     }

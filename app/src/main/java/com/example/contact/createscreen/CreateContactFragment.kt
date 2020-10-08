@@ -36,11 +36,10 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
         viewModel.viewState.observe(viewLifecycleOwner, Observer(::render))
         createImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_account_circle_24))
         createImageView.setOnClickListener {
-            if (!checkPermissionForReadFromStorage()) {
-                requestPermissionForReadFromStorage()
-            }
             if (checkPermissionForReadFromStorage()) {
                 getImage()
+            } else {
+                requestPermissionForReadFromStorage()
             }
         }
 
@@ -54,9 +53,6 @@ class CreateContactFragment : Fragment(R.layout.fragment_create_contact) {
                         numberCreateText.text.toString()
                     )
                 )
-            )
-            (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(
-                false
             )
             router.navigateTo(ContactScreen())
         }
