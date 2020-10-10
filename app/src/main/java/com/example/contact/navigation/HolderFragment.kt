@@ -1,8 +1,9 @@
-package com.example.contact
+package com.example.contact.navigation
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.example.contact.R
 import com.example.contact.maincontactscreen.di.CONTACTS_QUALIFIER
 import com.example.contact.maincontactscreen.ui.ContactScreen
 import org.koin.android.ext.android.inject
