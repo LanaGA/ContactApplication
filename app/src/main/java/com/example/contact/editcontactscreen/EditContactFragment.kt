@@ -81,7 +81,8 @@ class EditContactFragment(private val number: String) : Fragment(R.layout.fragme
                 Glide.with(this)
                     .load(currentImagePath)
                     .into(editImageView)
-                nameEditText.setText((model?.name + " " + model?.surname))
+                nameEditText.setText(model?.name)
+                surnameEditText.setText(model?.surname)
                 numberEditText.setText(model?.number)
             }
             STATUS.ERROR -> {
